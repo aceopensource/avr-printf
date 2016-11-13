@@ -111,6 +111,10 @@ regs Kusti, 23.10.2004
 
 #include <avr/pgmspace.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void init_printf(void* putp,void (*putf) (void*,char));
 
 void tfp_printf(const char *fmt, ...);
@@ -122,7 +126,11 @@ void tfp_format(void* putp,void (*putf) (void*,char),const char *fmt, va_list va
 //#define sprintf tfp_sprintf
 
 // pgmspace.h line 408
-# define printf(s, ...) tfp_printf(__extension__({static const char __c[] PROGMEM = (s); &__c[0];}), ##__VA_ARGS__)
+#define printf(s, ...) tfp_printf(__extension__({static const char __c[] PROGMEM = (s); &__c[0];}), ##__VA_ARGS__)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 
