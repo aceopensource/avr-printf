@@ -111,6 +111,8 @@ regs Kusti, 23.10.2004
 
 #include <avr/pgmspace.h>
 
+#define PRINTF_LONG_SUPPORT
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -121,6 +123,8 @@ void tfp_printf(const char *fmt, ...);
 void tfp_sprintf(char* s,char *fmt, ...);
 
 void tfp_format(void* putp,void (*putf) (void*,char),const char *fmt, va_list va);
+
+uint16_t test;
 
 //#define printf tfp_printf
 //#define sprintf tfp_sprintf
