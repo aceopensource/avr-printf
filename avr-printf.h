@@ -33,12 +33,12 @@ OF SUCH DAMAGE.
 
 ----------------------------------------------------------------------
 
-This library is realy just two files: 'printf.h' and 'printf.c'.
+This library is really just two files: 'printf.h' and 'printf.c'.
 
 They provide a simple and small (+200 loc) printf functionality to
 be used in embedded systems.
 
-I've found them so usefull in debugging that I do not bother with a
+I've found them so useful in debugging that I do not bother with a
 debugger at all.
 
 They are distributed in source form, so to use them, just compile them
@@ -53,13 +53,13 @@ Zero padding and field width are also supported.
 If the library is compiled with 'PRINTF_SUPPORT_LONG' defined then the
 long specifier is also
 supported. Note that this will pull in some long math routines (pun intended!)
-and thus make your executable noticably longer.
+and thus make your executable noticeably longer.
 
 The memory foot print of course depends on the target cpu, compiler and
 compiler options, but a rough guestimate (based on a H8S target) is about
 1.4 kB for code and some twenty 'int's and 'char's, say 60 bytes of stack space.
-Not too bad. Your milage may vary. By hacking the source code you can
-get rid of some hunred bytes, I'm sure, but personally I feel the balance of
+Not too bad. Your mileage may vary. By hacking the source code you can
+get rid of some hundred bytes, I'm sure, but personally I feel the balance of
 functionality and flexibility versus  code size is close to optimal for
 many embedded systems.
 
@@ -85,7 +85,7 @@ This is not often needed but it was implemented like that because it made
 implementing the sprintf function so neat (look at the source code).
 
 The code is re-entrant, except for the 'init_printf' function, so it
-is safe to call it from interupts too, although this may result in mixed output.
+is safe to call it from interrupts too, although this may result in mixed output.
 If you rely on re-entrancy, take care that your 'putc' function is re-entrant!
 
 The printf and sprintf functions are actually macros that translate to
@@ -95,8 +95,26 @@ You just need to undef the names before you include the 'stdio.h'.
 Note that these are not function like macros, so if you have variables
 or struct members with these names, things will explode in your face.
 Without variadic macros this is the best we can do to wrap these
-fucnction. If it is a problem just give up the macros and use the
+function. If it is a problem just give up the macros and use the
 functions directly or rename them.
+
+--- Doubles / Floats ---
+
+It looks like doubles and floats use the same amount of memory (4 bytes).
+Floats are native and doubles are not (https://gcc.gnu.org/wiki/avr-gcc).
+use dtostrf() to convert them to character strings, then output with this
+library.
+
+doubles: (http://floating-point-gui.de/formats/fp/)
+- 23 bits of significand
+- 8 bits of exponent
+- 1 sign bit
+- Maximum significand: 8,388,608
+
+dtostrf() arguments:
+- http://forum.arduino.cc/index.php?topic=85523.msg642329#msg642329
+
+------------------------
 
 For further details see source code.
 
@@ -108,7 +126,7 @@ regs Kusti, 23.10.2004
 #define __TFP_PRINTF__
 
 #include <stdarg.h>
-
+#include <stdlib.h>
 #include <avr/pgmspace.h>
 
 #define PRINTF_LONG_SUPPORT

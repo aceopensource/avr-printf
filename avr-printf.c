@@ -36,8 +36,6 @@ typedef void (*putcf) (void*,char);
 static putcf stdout_putf;
 static void* stdout_putp;
 
-#define PRINTF_LONG_SUPPORT // Redundant define for code::blocks
-
 #ifdef PRINTF_LONG_SUPPORT
 
 static void uli2a(unsigned long int num, unsigned long int base, int uc,char * bf)
